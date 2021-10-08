@@ -25,3 +25,25 @@ app = FastAPI(
 app.include_router(EventsSubscriptionApiRouter)
 app.include_router(NotificationListenersClientSideApiRouter)
 app.include_router(ResourceApiRouter)
+
+
+@app.on_event("startup")
+async def startup_event():
+   print("****************************************************") 
+   print("*Start up")
+   print("*Steps to take:")
+   print("*Initialize self (read from text files)")
+   print("*Self register")
+   print("****************************************************") 
+#    with open("log.txt", mode="a") as log:
+#        log.write("Application init")
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+   print("****************************************************") 
+   print("Shut down")
+   print("Unregister")
+   print("****************************************************") 
+   with open("log.txt", mode="a") as log:
+       log.write("Application shutdown")
