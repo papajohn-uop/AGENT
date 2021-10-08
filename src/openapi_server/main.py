@@ -16,6 +16,8 @@ from openapi_server.apis.events_subscription_api import router as EventsSubscrip
 from openapi_server.apis.notification_listeners__client_side_api import router as NotificationListenersClientSideApiRouter
 from openapi_server.apis.resource_api import router as ResourceApiRouter
 
+import json
+
 app = FastAPI(
     title="API Resource Inventory Management",
     description="## TMF API Reference: TMF639 - Resource Inventory   ### Release : 19.5 - December 2019  Resource Inventory  API goal is to provide the ability to manage Resources.  ### Operations Resource Inventory API performs the following operations on the resources : - Retrieve an entity or a collection of entities depending on filter criteria - Partial update of an entity (including updating rules) - Create an entity (including default values and creation rules) - Delete an entity (for administration purposes) - Manage notification of events",
@@ -29,15 +31,25 @@ app.include_router(ResourceApiRouter)
 
 @app.on_event("startup")
 async def startup_event():
-   print("****************************************************") 
-   print("*Start up")
-   print("*Steps to take:")
-   print("*Initialize self (read from text files)")
-   print("*Self register")
-   print("****************************************************") 
-#    with open("log.txt", mode="a") as log:
-#        log.write("Application init")
+    print("****************************************************") 
+    print("*Start up")
+    print("*Steps to take:")
+    print("*Initialize self (read from text files)")
+    print("*Self register")
+    print("****************************************************") 
+    with open("agent_conf.cfg", "r") as jsonfile:
+        data = json.load(jsonfile)
+        print("Read successful")
+        print(data)
+        print(data["server"])
+        print(data["commands"])
+        for key in data["commands"]:
+            print(key)
+            print(data["commands"][key])
 
+
+    
+    
 
 @app.on_event("shutdown")
 def shutdown_event():
