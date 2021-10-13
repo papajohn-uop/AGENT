@@ -7,16 +7,16 @@ import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
 from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
-from openapi_server.models.attachment_ref_or_value import AttachmentRefOrValue
+#from openapi_server.models.attachment_ref_or_value import AttachmentRefOrValue
 from openapi_server.models.characteristic import Characteristic
-from openapi_server.models.feature import Feature
-from openapi_server.models.note import Note
-from openapi_server.models.related_party import RelatedParty
-from openapi_server.models.related_place_ref_or_value import RelatedPlaceRefOrValue
+#from openapi_server.models.feature import Feature
+#from openapi_server.models.note import Note
+#from openapi_server.models.related_party import RelatedParty
+#from openapi_server.models.related_place_ref_or_value import RelatedPlaceRefOrValue
 from openapi_server.models.resource_administrative_state_type import ResourceAdministrativeStateType
 from openapi_server.models.resource_operational_state_type import ResourceOperationalStateType
-from openapi_server.models.resource_relationship import ResourceRelationship
-from openapi_server.models.resource_specification_ref import ResourceSpecificationRef
+#from openapi_server.models.resource_relationship import ResourceRelationship
+#from openapi_server.models.resource_specification_ref import ResourceSpecificationRef
 from openapi_server.models.resource_status_type import ResourceStatusType
 from openapi_server.models.resource_usage_state_type import ResourceUsageStateType
 
@@ -30,47 +30,47 @@ class ResourceCreate(BaseModel):
 
         category: The category of this ResourceCreate [Optional].
         description: The description of this ResourceCreate [Optional].
-        end_operating_date: The end_operating_date of this ResourceCreate [Optional].
+       # end_operating_date: The end_operating_date of this ResourceCreate [Optional].
         name: The name of this ResourceCreate.
         resource_version: The resource_version of this ResourceCreate [Optional].
-        start_operating_date: The start_operating_date of this ResourceCreate [Optional].
-        activation_feature: The activation_feature of this ResourceCreate [Optional].
+    #    start_operating_date: The start_operating_date of this ResourceCreate [Optional].
+       # activation_feature: The activation_feature of this ResourceCreate [Optional].
         administrative_state: The administrative_state of this ResourceCreate [Optional].
-        attachment: The attachment of this ResourceCreate [Optional].
-        note: The note of this ResourceCreate [Optional].
+     #   attachment: The attachment of this ResourceCreate [Optional].
+     #   note: The note of this ResourceCreate [Optional].
         operational_state: The operational_state of this ResourceCreate [Optional].
-        place: The place of this ResourceCreate [Optional].
-        related_party: The related_party of this ResourceCreate [Optional].
+     #   place: The place of this ResourceCreate [Optional].
+     #   related_party: The related_party of this ResourceCreate [Optional].
         resource_characteristic: The resource_characteristic of this ResourceCreate [Optional].
-        resource_relationship: The resource_relationship of this ResourceCreate [Optional].
-        resource_specification: The resource_specification of this ResourceCreate [Optional].
+     #   resource_relationship: The resource_relationship of this ResourceCreate [Optional].
+     #   resource_specification: The resource_specification of this ResourceCreate [Optional].
         resource_status: The resource_status of this ResourceCreate [Optional].
         usage_state: The usage_state of this ResourceCreate [Optional].
-        base_type: The base_type of this ResourceCreate [Optional].
-        schema_location: The schema_location of this ResourceCreate [Optional].
+    #    base_type: The base_type of this ResourceCreate [Optional].
+    #    schema_location: The schema_location of this ResourceCreate [Optional].
         type: The type of this ResourceCreate [Optional].
     """
 
     category: Optional[str] = None
     description: Optional[str] = None
-    end_operating_date: Optional[datetime] = None
+   # end_operating_date: Optional[datetime] = None
     name: str
     resource_version: Optional[str] = None
-    start_operating_date: Optional[datetime] = None
-    activation_feature: Optional[List[Feature]] = None
+   # start_operating_date: Optional[datetime] = None
+   # activation_feature: Optional[List[Feature]] = None
     administrative_state: Optional[ResourceAdministrativeStateType] = None
-    attachment: Optional[List[AttachmentRefOrValue]] = None
-    note: Optional[List[Note]] = None
+   # attachment: Optional[List[AttachmentRefOrValue]] = None
+   # note: Optional[List[Note]] = None
     operational_state: Optional[ResourceOperationalStateType] = None
-    place: Optional[RelatedPlaceRefOrValue] = None
-    related_party: Optional[List[RelatedParty]] = None
+   # place: Optional[RelatedPlaceRefOrValue] = None
+   # related_party: Optional[List[RelatedParty]] = None
     resource_characteristic: Optional[List[Characteristic]] = None
-    resource_relationship: Optional[List[ResourceRelationship]] = None
-    resource_specification: Optional[ResourceSpecificationRef] = None
+   # resource_relationship: Optional[List[ResourceRelationship]] = None
+   # resource_specification: Optional[ResourceSpecificationRef] = None
     resource_status: Optional[ResourceStatusType] = None
     usage_state: Optional[ResourceUsageStateType] = None
-    base_type: Optional[str] = None
-    schema_location: Optional[AnyUrl] = None
-    type: Optional[str] = None
+   # base_type: Optional[str] = None
+   # schema_location: Optional[AnyUrl] = None
+  #  type: Optional[str] = None
 
 ResourceCreate.update_forward_refs()

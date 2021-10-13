@@ -7,7 +7,7 @@ import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
 from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
-from openapi_server.models.characteristic_relationship import CharacteristicRelationship
+#from openapi_server.models.characteristic_relationship import CharacteristicRelationship
 
 
 class Characteristic(BaseModel):
@@ -30,10 +30,10 @@ class Characteristic(BaseModel):
     id: Optional[str] = None
     name: str
     value_type: Optional[str] = None
-    characteristic_relationship: Optional[List[CharacteristicRelationship]] = None
+   # characteristic_relationship: Optional[List[CharacteristicRelationship]] = None
     value: Dict[str, Any]
-    base_type: Optional[str] = None
-    schema_location: Optional[AnyUrl] = None
-    type: Optional[str] = None
+   # base_type: Optional[str] = None
+   # schema_location: Optional[AnyUrl] = None
+   # type: Optional[str] = None
 
 Characteristic.update_forward_refs()
