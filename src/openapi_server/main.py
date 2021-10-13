@@ -12,8 +12,8 @@
 
 from fastapi import FastAPI
 
-from openapi_server.apis.events_subscription_api import router as EventsSubscriptionApiRouter
-from openapi_server.apis.notification_listeners__client_side_api import router as NotificationListenersClientSideApiRouter
+# from openapi_server.apis.events_subscription_api import router as EventsSubscriptionApiRouter
+# from openapi_server.apis.notification_listeners__client_side_api import router as NotificationListenersClientSideApiRouter
 from openapi_server.apis.resource_api import router as ResourceApiRouter
 
 import json
@@ -24,8 +24,8 @@ app = FastAPI(
     version="4.0.0",
 )
 
-app.include_router(EventsSubscriptionApiRouter)
-app.include_router(NotificationListenersClientSideApiRouter)
+# app.include_router(EventsSubscriptionApiRouter)
+# app.include_router(NotificationListenersClientSideApiRouter)
 app.include_router(ResourceApiRouter)
 
 
@@ -57,5 +57,5 @@ def shutdown_event():
    print("Shut down")
    print("Unregister")
    print("****************************************************") 
-   with open("log.txt", mode="a") as log:
+   with open("../log.txt", mode="a") as log:
        log.write("Application shutdown")
