@@ -145,13 +145,14 @@ async def patch_resource(
 
     if main.fileHandler.allowed_actions is not None:
         print("--------------->")
-        print(main.fileHandler.allowed_actions)
         if main.fileHandler.action_present  not in main.fileHandler.allowed_actions:
             print("Yeah I do not how to do this.... ")
             print(main.fileHandler.action_present)
             return None
-
-
+        print(main.fileHandler.action_present)
+        main.cmdHandler.action=main.fileHandler.action_present
+        main.cmdHandler.action_command=main.fileHandler.allowed_actions[main.fileHandler.action_present]
+        main.cmdHandler.executeCMD()
 
     #TODO: Check for success/fail of command
     return newResource

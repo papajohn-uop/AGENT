@@ -16,7 +16,7 @@ from fastapi import FastAPI
 # from openapi_server.apis.notification_listeners__client_side_api import router as NotificationListenersClientSideApiRouter
 from openapi_server.apis.resource_api import router as ResourceApiRouter
 
-from  common import handle_files
+from  common import handle_files,handle_cmds
 
 
 app = FastAPI(
@@ -31,6 +31,7 @@ app.include_router(ResourceApiRouter)
 
 
 fileHandler=handle_files.FileHandler()
+cmdHandler=handle_cmds.CmdHandler()
 
 @app.on_event("startup")
 async def startup_event():
