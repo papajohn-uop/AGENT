@@ -24,6 +24,9 @@ from openapi_server.models.resource_update import ResourceUpdate
 
 import uuid
 
+#from  common import handle_files
+from  openapi_server import main
+
 router = APIRouter()
 
 
@@ -127,7 +130,6 @@ async def patch_resource(
     
     newResource.resource_characteristic=resource.resource_characteristic
     action_present=None
-    action_params=None
     for characteristic in newResource.resource_characteristic:
         characteristic.id=str(uuid.uuid1())
         #print(characteristic)
@@ -135,46 +137,24 @@ async def patch_resource(
         #Check if there is an action
         if(characteristic.name=="action"):
             #print("We have something to do....")
-            action_present=characteristic.value["value"]
+            main.fileHandler.action_present=characteristic.value["value"]
         #Check if there is an action
         if(characteristic.name=="action_parameters"):
             #print("We have something to do....")
-            action_params=characteristic.value["value"]
-
-    
-    # print("**************")
-    # print(action_present)
-    # print(action_params)
-    # print(action_params["param1"])
+            main.fileHandler.action_params=characteristic.value["value"]
 
     # print("**************")
-    allowed_actions={"start":"COMMAND_TO_START","stop":"COMMAND_TO_STOP"}
-    allowed_params=[
-            "PRMT_TDD", 
-            "PRMT_TDD_CONFIG", 
-            "PRMT_N_ANTENNA_DL",  
-            "PRMT_BANDWIDTH",
-            "PRMT_TX_GAIN",
-            "PRMT_RX_GAIN",
-            "PRMT_AMF_ADDR",
-            "PRMT_GTP_ADDR",
-            "PRMT_PLMN",
-            "PRMT_TAC",
-            "PRMT_MOD_UL",
-            "PRMT_MOD_DL",
-            "PRMT_BAND",
-            "PRMT_NR_ARFCN" 
-            ]
-    
-    if action_present in allowed_actions:
+    if main.fileHandler.action_present in main.handle_files.allowed_actions:
         print("YEAH. We are going on an adventure to--->")
         print(action_present)
-        print(allowed_actions[action_present])
+        print(main.handle_files.allowed_actions[main.fileHandler.action_present])
 
     else:
         print("Yeah I do not how to do this.... ")
-
-
+        print(action_present)
+        return None
+    if main.fileHandler.action_params is not None:
+            main.fileHandler.write_conf_file()
 
     #TODO: Check for success/fail of command
     return newResource

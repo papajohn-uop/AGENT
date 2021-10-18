@@ -16,7 +16,8 @@ from fastapi import FastAPI
 # from openapi_server.apis.notification_listeners__client_side_api import router as NotificationListenersClientSideApiRouter
 from openapi_server.apis.resource_api import router as ResourceApiRouter
 
-import json
+from  common import handle_files
+
 
 app = FastAPI(
     title="API Resource Inventory Management",
@@ -29,6 +30,8 @@ app = FastAPI(
 app.include_router(ResourceApiRouter)
 
 
+fileHandler=handle_files.FileHandler()
+
 @app.on_event("startup")
 async def startup_event():
     print("****************************************************") 
@@ -37,17 +40,8 @@ async def startup_event():
     print("*Initialize self (read from text files)")
     print("*Self register")
     print("****************************************************") 
-    with open("agent_conf.cfg", "r") as jsonfile:
-        data = json.load(jsonfile)
-        print("Read successful")
-        print(data)
-        print(data["server"])
-        print(data["commands"])
-        for key in data["commands"]:
-            print(key)
-            print(data["commands"][key])
 
-
+    fileHandler.read_conf()
     
     
 
