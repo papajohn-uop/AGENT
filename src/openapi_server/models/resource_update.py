@@ -7,16 +7,16 @@ import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
 from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
-from openapi_server.models.attachment_ref_or_value import AttachmentRefOrValue
+#from openapi_server.models.attachment_ref_or_value import AttachmentRefOrValue
 from openapi_server.models.characteristic import Characteristic
-from openapi_server.models.feature import Feature
-from openapi_server.models.note import Note
-from openapi_server.models.related_party import RelatedParty
-from openapi_server.models.related_place_ref_or_value import RelatedPlaceRefOrValue
+#from openapi_server.models.feature import Feature
+#from openapi_server.models.note import Note
+#from openapi_server.models.related_party import RelatedParty
+#from openapi_server.models.related_place_ref_or_value import RelatedPlaceRefOrValue
 from openapi_server.models.resource_administrative_state_type import ResourceAdministrativeStateType
 from openapi_server.models.resource_operational_state_type import ResourceOperationalStateType
-from openapi_server.models.resource_relationship import ResourceRelationship
-from openapi_server.models.resource_specification_ref import ResourceSpecificationRef
+#from openapi_server.models.resource_relationship import ResourceRelationship
+#from openapi_server.models.resource_specification_ref import ResourceSpecificationRef
 from openapi_server.models.resource_status_type import ResourceStatusType
 from openapi_server.models.resource_usage_state_type import ResourceUsageStateType
 
@@ -53,24 +53,24 @@ class ResourceUpdate(BaseModel):
 
     category: Optional[str] = None
     description: Optional[str] = None
-    end_operating_date: Optional[datetime] = None
+    #end_operating_date: Optional[datetime] = None
     name: Optional[str] = None
     resource_version: Optional[str] = None
-    start_operating_date: Optional[datetime] = None
-    activation_feature: Optional[List[Feature]] = None
+    #start_operating_date: Optional[datetime] = None
+    #activation_feature: Optional[List[Feature]] = None
     administrative_state: Optional[ResourceAdministrativeStateType] = None
-    attachment: Optional[List[AttachmentRefOrValue]] = None
-    note: Optional[List[Note]] = None
+    #attachment: Optional[List[AttachmentRefOrValue]] = None
+    #note: Optional[List[Note]] = None
     operational_state: Optional[ResourceOperationalStateType] = None
-    place: Optional[RelatedPlaceRefOrValue] = None
-    related_party: Optional[List[RelatedParty]] = None
+    #place: Optional[RelatedPlaceRefOrValue] = None
+    #related_party: Optional[List[RelatedParty]] = None
     resource_characteristic: Optional[List[Characteristic]] = None
-    resource_relationship: Optional[List[ResourceRelationship]] = None
-    resource_specification: Optional[ResourceSpecificationRef] = None
+    #resource_relationship: Optional[List[ResourceRelationship]] = None
+    #resource_specification: Optional[ResourceSpecificationRef] = None
     resource_status: Optional[ResourceStatusType] = None
     usage_state: Optional[ResourceUsageStateType] = None
-    base_type: Optional[str] = None
-    schema_location: Optional[AnyUrl] = None
-    type: Optional[str] = None
+    #base_type: Optional[str] = None
+    #schema_location: Optional[AnyUrl] = None
+    #type: Optional[str] = None
 
 ResourceUpdate.update_forward_refs()
