@@ -6,15 +6,19 @@ class FileHandler:
         self.gnodeb_conf_file="../../myconf.cfg"
         self.action_params=None
         self.action_present=None
-        self.allowed_actions=list()
+        self.allowed_actions=dict()
         self.allowed_params=None
           
     def read_conf(self):
         with open(self.agent_conf_file, "r") as jsonfile:
             data = json.load(jsonfile)
             for key in data["commands"]:
-                self.allowed_actions.append(key)
+                self.allowed_actions[key]=data["commands"][key]
             self.allowed_params=data["allowed_params"]
+        print("----------->")
+        print(data["commands"])
+        print("----------->")
+        print(self.allowed_actions)
     
 
 
