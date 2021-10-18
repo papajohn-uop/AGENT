@@ -132,29 +132,26 @@ async def patch_resource(
     action_present=None
     for characteristic in newResource.resource_characteristic:
         characteristic.id=str(uuid.uuid1())
-        #print(characteristic)
-        #print(characteristic.name)
         #Check if there is an action
         if(characteristic.name=="action"):
-            #print("We have something to do....")
             main.fileHandler.action_present=characteristic.value["value"]
         #Check if there is an action
         if(characteristic.name=="action_parameters"):
-            #print("We have something to do....")
             main.fileHandler.action_params=characteristic.value["value"]
 
-    # print("**************")
-    if main.fileHandler.action_present in main.handle_files.allowed_actions:
-        print("YEAH. We are going on an adventure to--->")
-        print(action_present)
-        print(main.handle_files.allowed_actions[main.fileHandler.action_present])
 
-    else:
-        print("Yeah I do not how to do this.... ")
-        print(action_present)
-        return None
     if main.fileHandler.action_params is not None:
             main.fileHandler.write_conf_file()
+
+    if main.fileHandler.allowed_actions is not None:
+        print("--------------->")
+        print(main.fileHandler.allowed_actions)
+        if main.fileHandler.action_present  not in main.fileHandler.allowed_actions:
+            print("Yeah I do not how to do this.... ")
+            print(main.fileHandler.action_present)
+            return None
+
+
 
     #TODO: Check for success/fail of command
     return newResource

@@ -1,23 +1,3 @@
-
-allowed_params=[
-        "PRMT_TDD", 
-        "PRMT_TDD_CONFIG", 
-        "PRMT_N_ANTENNA_DL",  
-        "PRMT_BANDWIDTH",
-        "PRMT_TX_GAIN",
-        "PRMT_RX_GAIN",
-        "PRMT_AMF_ADDR",
-        "PRMT_GTP_ADDR",
-        "PRMT_PLMN",
-        "PRMT_TAC",
-        "PRMT_MOD_UL",
-        "PRMT_MOD_DL",
-        "PRMT_BAND",
-        "PRMT_NR_ARFCN" 
-        ]
-
-
-allowed_actions={"start":"COMMAND_TO_START","stop":"COMMAND_TO_STOP"}
 import json
 
 class FileHandler:
@@ -26,22 +6,16 @@ class FileHandler:
         self.gnodeb_conf_file="../../myconf.cfg"
         self.action_params=None
         self.action_present=None
-        self.allowed_actions=allowed_actions
-    
+        self.allowed_actions=list()
+        self.allowed_params=None
+          
     def read_conf(self):
         with open(self.agent_conf_file, "r") as jsonfile:
             data = json.load(jsonfile)
-            print("Read successful")
-            print(data)
-            print(data["server"])
-            print(data["commands"])
             for key in data["commands"]:
-                print(key)
-                print(data["commands"][key])
-            print(data["allowed_params"])
-            self.action_params=data["allowed_params"]
-            print(self.action_params)
-
+                self.allowed_actions.append(key)
+            self.allowed_params=data["allowed_params"]
+    
 
 
     def write_conf_file(self):
@@ -52,15 +26,7 @@ class FileHandler:
 
             #start wirtitng file
             for param in self.action_params:
-                if param in allowed_params:
-                    print("YEAH. Nice param--->")
-                    print("*******************************")
-                    print(param,)
-                    print("*******************************")
-                    print(self.action_params)
-                    print("*******************************")
-                    print(self.action_params[param])
-                    print("*******************************")
+                if param in self.allowed_params:
                     with open("../../myconf.cfg", mode="a") as conf:
                         conf.write("#define {} {}\n".format(param,self.action_params[param]))
 
