@@ -40,9 +40,12 @@ async def startup_event():
     print("*Steps to take:")
     print("*Initialize self (read from text files)")
     print("*Self register")
+    print("****Create Resource for self register")
     print("****************************************************") 
 
     fileHandler.read_conf()
+    fileHandler.selfRegister()
+
     
     
 
