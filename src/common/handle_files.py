@@ -3,6 +3,9 @@ import json
 from openapi_server.models.resource_create import ResourceCreate
 from openapi_server.models.characteristic import Characteristic
 
+import string
+import random
+
 class FileHandler:
     def __init__(self):
         self.agent_conf_file="agent_conf.cfg"
@@ -48,7 +51,9 @@ class FileHandler:
     def selfRegister(self):
         print("Trying to self register")
         #TODO: Check if entries exist in cfg
-        selfResource=ResourceCreate(name=self.resource["name"])
+        #create a random name so that DB does not get an error when testing
+        ran = ''.join(random.choices(string.ascii_uppercase + string.digits +string.ascii_lowercase, k = 5))    
+        selfResource=ResourceCreate(name=self.resource["name"]+ran)
         selfResource.category=self.resource["category"]
         selfResource.description=self.resource["description"]
         selfResource.resource_characteristic=[]
