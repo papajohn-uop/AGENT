@@ -6,21 +6,27 @@ from openapi_server.models.characteristic import Characteristic
 import string
 import random
 
+import requests
+
 class FileHandler:
     def __init__(self):
         self.agent_conf_file="agent_conf.cfg"
         self.gnodeb_conf_file="../../myconf.cfg"
         self.action_params=None
         self.action_present=None
-        self.allowed_actions=dict()
+        self.allowed_actions=list()
         self.allowed_params=None
         self.resource=None
+        self.server=None
           
     def read_conf(self):
         with open(self.agent_conf_file, "r") as jsonfile:
             data = json.load(jsonfile)
+            if "server" in data:
+                self.server=data["server"]
+
             for key in data["commands"]:
-                self.allowed_actions[key]=data["commands"][key]
+                self.allowed_actions.append(key)
             self.allowed_params=data["allowed_params"]
             if "resource" in data:
                 self.resource=data["resource"]
@@ -56,19 +62,34 @@ class FileHandler:
         selfResource=ResourceCreate(name=self.resource["name"]+ran)
         selfResource.category=self.resource["category"]
         selfResource.description=self.resource["description"]
+        selfResource.resource_version="0.0.1"
         selfResource.resource_characteristic=[]
         if "ip" in self.resource:
-            resourceIP_Char=Characteristic(name="IP",type="string",value={"value":self.resource["ip"]})
+            resourceIP_Char=Characteristic(name="IP",value={"value":self.resource["ip"]})
+            resourceIP_Char.id="string"
+            resourceIP_Char.value_type="string"
             selfResource.resource_characteristic.append(resourceIP_Char)
         if "location" in self.resource:
-            resourceLoc_Char=Characteristic(name="IP",type="array",value={"value":self.resource["location"]})
+            resourceLoc_Char=Characteristic(name="location",type="array",value={"value":self.resource["location"]})
+            resourceLoc_Char.id="string"
+            resourceLoc_Char.value_type="array"
             selfResource.resource_characteristic.append(resourceLoc_Char)    
         print(selfResource)
 
         if self.allowed_actions is not None:
             resourceAction_Char=Characteristic(name="supported_actions",type="list",value={"value":self.allowed_actions})  
+            resourceAction_Char.id="string"
+            resourceAction_Char.value_type="list"
             selfResource.resource_characteristic.append(resourceAction_Char)    
-        
 
 
         print(selfResource.json())
+
+                
+        #TODO check that server is actually there
+        if self.server is not None:
+            print(self.server)
+            #Send post req to server
+            #TODO: check that IP has http in front otherwise add it
+            x = requests.post(self.server+"/resource", data=selfResource.json() )
+            print("request complete")
