@@ -1,0 +1,17 @@
+{
+  "resource_characteristic": [
+   {
+      "id": "string",
+      "name": "action",
+      "value_type": "string",
+      "value": {"value":"start/stop"}
+    },
+	{
+      "id": "string",
+      "name": "action_parameters",
+      "value_type": "object",
+      "value": {"value":{"PRMT_TAC":"wwww","PRMT_BAND":"2222"}}
+    }
+  ]
+}
+

@@ -1,0 +1,26 @@
+curl -X 'PATCH' \
+  'http://127.0.0.1:18080/resource/dd' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "resource_characteristic": [
+   {
+      "id": "string",
+      "name": "action",
+      "value_type": "string",
+      "value": {"value":"start/stop"}
+    },
+	{
+      "id": "string",
+      "name": "action_parameters",
+      "value_type": "object",
+      "value": {"value":{"PRMT_TAC":"eeeeeeeeeeeeeee","PRMT_BAND":"78"}}
+    }
+  ]
+}
+'
+curl -X 'PATCH'   'http://127.0.0.1:18080/resource/dd'   -H 'accept: application/json'   -H 'Content-Type: application/json' --data '@./agent.post'
+
+wget {{CONF_FILE_URL}}
+curl -X 'PATCH'   'http://{{IP_ADDRESS}}/resource/{{RESOURCE_ID}}'   -H 'accept: application/json'   -H 'Content-Type: application/json' --data '{{CONF_FILE}}'
+
