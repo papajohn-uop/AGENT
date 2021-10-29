@@ -139,7 +139,6 @@ async def patch_resource(
         if(characteristic.name=="action_parameters"):
             main.fileHandler.action_params=characteristic.value["value"]
 
-
     if main.fileHandler.action_params is not None:
             main.fileHandler.write_conf_file()
 
