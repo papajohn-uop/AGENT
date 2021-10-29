@@ -18,6 +18,7 @@ class FileHandler:
         self.allowed_params=None
         self.resource=None
         self.server=None
+        self.resourceID=None
           
     def read_conf(self):
         with open(self.agent_conf_file, "r") as jsonfile:
@@ -93,3 +94,18 @@ class FileHandler:
             #TODO: check that IP has http in front otherwise add it
             x = requests.post(self.server+"/resource", data=selfResource.json() )
             print("request complete")
+            print(x.reason)
+            print(x.status_code)
+            if(x.status_code==200):
+                print("Self register success")
+                # print(x.text)
+                # print(x.json())
+                if "id" in x.json():
+                    print(x.json()["id"])
+                    self.resourceID=x.json()["id"]
+                    print(self.resourceID)
+                else:
+                    print("This is strange")
+            else:
+                #TODO: Check what went wring and handle
+                print("Oooops")

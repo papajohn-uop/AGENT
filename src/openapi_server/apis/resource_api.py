@@ -151,7 +151,7 @@ async def patch_resource(
             return None
         print(main.fileHandler.action_present)
         main.cmdHandler.action=main.fileHandler.action_present
-        main.cmdHandler.action_command=main.fileHandler.allowed_actions[main.fileHandler.action_present]
+        main.cmdHandler.action_command=main.fileHandler.commands[main.fileHandler.action_present]
         main.cmdHandler.executeCMD()
 
     #TODO: Check for success/fail of command
