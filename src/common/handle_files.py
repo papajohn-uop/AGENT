@@ -15,6 +15,7 @@ class FileHandler:
         self.action_params=None
         self.action_present=None
         self.allowed_actions=list()
+        self.commands=dict()
         self.allowed_params=None
         self.resource=None
         self.server=None
@@ -25,9 +26,10 @@ class FileHandler:
             data = json.load(jsonfile)
             if "server" in data:
                 self.server=data["server"]
-
-            for key in data["commands"]:
-                self.allowed_actions.append(key)
+            if "commands" in data:
+                self.commands=data["commands"]
+                for key in data["commands"]:
+                    self.allowed_actions.append(key)
             self.allowed_params=data["allowed_params"]
             if "resource" in data:
                 self.resource=data["resource"]
