@@ -111,3 +111,26 @@ class FileHandler:
             else:
                 #TODO: Check what went wring and handle
                 print("Oooops")
+
+
+  #This will create the request to self unregister
+    def unregister(self):
+        print("Trying to self unregister")
+        #TODO: Check if entries exist in cfg
+        #create a random name so that DB does not get an error when testing
+           
+        #TODO check that server is actually there
+        if self.server is not None:
+            print(self.server)
+            #Send post req to server
+            #TODO: check that IP has http in front otherwise add it
+            x = requests.delete(self.server+"/resource/"+self.resourceID )
+            print("request complete")
+            print(x.reason)
+            print(x.status_code)
+            if(x.status_code==200):
+                print("Self unregister success")
+               
+            else:
+                #TODO: Check what went wring and handle
+                print("Oooops")

@@ -45,6 +45,8 @@ async def startup_event():
 
     fileHandler.read_conf()
     fileHandler.selfRegister()
+    print("I AM -->")
+    print(fileHandler.resourceID)
 
     
     
@@ -55,5 +57,6 @@ def shutdown_event():
    print("Shut down")
    print("Unregister")
    print("****************************************************") 
+   fileHandler.unregister()
    with open("../log.txt", mode="a") as log:
        log.write("Application shutdown")
