@@ -63,6 +63,7 @@ class FileHandler:
         #create a random name so that DB does not get an error when testing
         ran = ''.join(random.choices(string.ascii_uppercase + string.digits +string.ascii_lowercase, k = 5))    
         selfResource=ResourceCreate(name=self.resource["name"]+ran)
+        selfResource=ResourceCreate(name=self.resource["name"])
         selfResource.category=self.resource["category"]
         selfResource.description=self.resource["description"]
         selfResource.resource_version="0.0.1"
@@ -96,9 +97,10 @@ class FileHandler:
             #TODO: check that IP has http in front otherwise add it
             x = requests.post(self.server+"/resource", data=selfResource.json() )
             print("request complete")
+            print(x)
             print(x.reason)
             print(x.status_code)
-            if(x.status_code==200):
+            if(x.status_code==201):
                 print("Self register success")
                 # print(x.text)
                 # print(x.json())
