@@ -8,6 +8,8 @@ import random
 
 import requests
 
+import os
+
 class FileHandler:
     def __init__(self):
         self.agent_conf_file="agent_conf.cfg"
@@ -20,6 +22,7 @@ class FileHandler:
         self.resource=None
         self.server=None
         self.resourceID=None
+        self.registered=None
           
     def read_conf(self):
         with open(self.agent_conf_file, "r") as jsonfile:
@@ -33,6 +36,10 @@ class FileHandler:
             self.allowed_params=data["allowed_params"]
             if "resource" in data:
                 self.resource=data["resource"]
+            if "resourceID" in data:
+                self.resourceID=data["resourceID"]
+            if "Registered" in data:
+                self.registered=data["Registered"]
         print("----------->")
         print(data["commands"])
         print("----------->")
@@ -59,10 +66,16 @@ class FileHandler:
     #This will create the request to self register
     def selfRegister(self):
         print("Trying to self register")
+        #check if registered already
+        if  self.registered:
+            print("Seems we are registered already")
+            return
         #TODO: Check if entries exist in cfg
         #create a random name so that DB does not get an error when testing
         ran = ''.join(random.choices(string.ascii_uppercase + string.digits +string.ascii_lowercase, k = 5))    
+        print(self.resource)
         selfResource=ResourceCreate(name=self.resource["name"]+ran)
+        #Send fixed name. This must be unique
         selfResource=ResourceCreate(name=self.resource["name"])
         selfResource.category=self.resource["category"]
         selfResource.description=self.resource["description"]
@@ -86,9 +99,7 @@ class FileHandler:
             resourceAction_Char.value_type="list"
             selfResource.resource_characteristic.append(resourceAction_Char)    
 
-
         print(selfResource.json())
-
                 
         #TODO check that server is actually there
         if self.server is not None:
@@ -108,8 +119,24 @@ class FileHandler:
                     print(x.json()["id"])
                     self.resourceID=x.json()["id"]
                     print(self.resourceID)
+
+                    tmpData=None
+                    with open(self.agent_conf_file, 'r') as jsonfile:
+                        tmpData = json.load(jsonfile)
+                        tmpData["Test"]="Test"
+                        tmpData["Registered"]=True
+                        tmpData["resourceID"]=self.resourceID
+
+                    os.remove(self.agent_conf_file)
+                    with open(self.agent_conf_file, 'w') as jsonfile:
+                        json.dump(tmpData, jsonfile, indent=4)
+
                 else:
                     print("This is strange")
+            #When a device with the same name has already been registered
+            # 409 Conflict is returned buy the server. 
+            elif (x.status_code==409):
+                print("Conflict. Same device name already registered")
             else:
                 #TODO: Check what went wring and handle
                 print("Oooops")
