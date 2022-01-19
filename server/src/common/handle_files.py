@@ -3,6 +3,12 @@ import json
 from openapi_server.models.resource_create import ResourceCreate
 from openapi_server.models.characteristic import Characteristic
 
+from openapi_server.models.resource_administrative_state_type import ResourceAdministrativeStateTypeEnum
+from openapi_server.models.resource_operational_state_type import ResourceOperationalStateTypeEnum
+from openapi_server.models.resource_status_type import ResourceStatusTypeEnum
+from openapi_server.models.resource_usage_state_type import ResourceUsageStateTypeEnum
+
+
 import string
 import random
 
@@ -23,7 +29,9 @@ class FileHandler:
         self.server=None
         self.resourceID=None
         self.registered=None
+        self.resource_status=None #Status of the resource
         self.resource=None #this will be the resource obj
+        
           
     def read_conf(self):
         with open(self.agent_conf_file, "r") as jsonfile:
@@ -39,6 +47,8 @@ class FileHandler:
                 self.resource_data=data["resource_data"]
             if "resourceID" in data:
                 self.resourceID=data["resourceID"]
+            if "resource_status" in data:
+                self.resource_status=data["resource_status"]
             if "Registered" in data:
                 self.registered=data["Registered"]
         print("----------->")
@@ -71,9 +81,9 @@ class FileHandler:
         #create a random name so that DB does not get an error when testing
         ran = ''.join(random.choices(string.ascii_uppercase + string.digits +string.ascii_lowercase, k = 5))    
         print(self.resource_data)
-        selfResource=ResourceCreate(name=self.resource_data["name"]+ran)
+        #selfResource=ResourceCreate(name=self.resource_data["name"]+ran)
         #Send fixed name. This must be unique
-        selfResource=ResourceCreate(name=self.resource_data["name"])
+        selfResource=ResourceCreate(name=self.resource_data["name"],)
         selfResource.category=self.resource_data["category"]
         selfResource.description=self.resource_data["description"]
         selfResource.resource_version="0.0.1"
@@ -87,6 +97,25 @@ class FileHandler:
             resourceLoc_Char=Characteristic(name="location",type="array",value={"value":self.resource_data["location"]})
             resourceLoc_Char.id="string"
             resourceLoc_Char.value_type="array"
+            selfResource.resource_characteristic.append(resourceLoc_Char)
+        if self.allowed_actions is not None:
+            resourceAction_Char=Characteristic(name="supported_actions",type="list",value={"value":self.allowed_actions})  
+            resourceAction_Char.id="string"
+            resourceAction_Char.value_type="list"
+            selfResource.resource_characteristic.append(resourceAction_Char)    
+        
+        if self.resource_status:
+            print("DDDDDDDDDDDDD")
+            #TODO: if the key is erroneous in agetn_Cfg (i.e. state=unlked) there is an excpetion. Must fix it
+            administrative_state=ResourceAdministrativeStateTypeEnum[self.resource_status["administrativeState"]].value if "administrativeState" in self.resource_status else None
+            operational_state=ResourceOperationalStateTypeEnum[self.resource_status["operationalState"]].value if "administrativeState" in self.resource_status else None
+            resource_status=ResourceStatusTypeEnum[self.resource_status["resourceStatus"]].value if "administrativeState" in self.resource_status else None
+            usage_state=ResourceUsageStateTypeEnum[self.resource_status["usageState"]].value if "administrativeState" in self.resource_status else None
+            selfResource.administrative_state=administrative_state
+            selfResource.operational_state=operational_state
+            selfResource.resource_status=resource_status
+            selfResource.usage_state=usage_state
+            print("******************")
         return selfResource   
 
     #This will create the request to self register
@@ -103,11 +132,7 @@ class FileHandler:
         selfResource=self.__createResource() 
         print(selfResource)
 
-        if self.allowed_actions is not None:
-            resourceAction_Char=Characteristic(name="supported_actions",type="list",value={"value":self.allowed_actions})  
-            resourceAction_Char.id="string"
-            resourceAction_Char.value_type="list"
-            selfResource.resource_characteristic.append(resourceAction_Char)    
+
 
         print(selfResource.json())
                 
@@ -133,7 +158,6 @@ class FileHandler:
                     tmpData=None
                     with open(self.agent_conf_file, 'r') as jsonfile:
                         tmpData = json.load(jsonfile)
-                        tmpData["Test"]="Test"
                         tmpData["Registered"]=True
                         tmpData["resourceID"]=self.resourceID
 
