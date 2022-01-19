@@ -118,20 +118,37 @@ class FileHandler:
             print("******************")
         return selfResource   
 
+    def __alreadyRegistered(self):
+            print("Seems we are registered already")
+            #TODO: At this point we should send a GET to the server with our ID to create the selfResourse
+            #If the GET fails (i.e. the server has deleted us) we should register again
+            #If the device exists we should check whether there is any configuration change locally and PATCH if required
+            #As a QnD solution, lets PATCH every time.
+            print("LEts PATCH with possible changes")
+            resourcePATCH=self.__createResource()
+            # print(resourcePATCH)
+            # print(resourcePATCH.name)
+            # print(resourcePATCH.json())
+            x = requests.patch(self.server+"/resource/"+resourcePATCH.name, data=resourcePATCH.json() )
+            print("request complete")
+            print(x)
+            print(x.reason)
+            print(x.status_code)
+            print
+            print(x.json())
+
+
     #This will create the request to self register
     def selfRegister(self):
         print("Trying to self register")
         #check if registered already
         if  self.registered:
-            print("Seems we are registered already")
-            #TODO: At this point we should send a GET to the server with our ID to create the selfResourse
-            #If the GET fails (i.e. the server has deleted us) we should register again
-            print(self.resource)
+            self.__alreadyRegistered()
             return
 
         selfResource=self.__createResource() 
         print(selfResource)
-
+      
 
 
         print(selfResource.json())
