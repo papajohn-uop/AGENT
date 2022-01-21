@@ -1,6 +1,7 @@
 import json
 
 from openapi_server.models.resource_create import ResourceCreate
+from openapi_server.models.resource_update import ResourceUpdate
 from openapi_server.models.characteristic import Characteristic
 
 from openapi_server.models.resource_administrative_state_type import ResourceAdministrativeStateTypeEnum
@@ -123,19 +124,22 @@ class FileHandler:
             #TODO: At this point we should send a GET to the server with our ID to create the selfResourse
             #If the GET fails (i.e. the server has deleted us) we should register again
             #If the device exists we should check whether there is any configuration change locally and PATCH if required
-            #As a QnD solution, lets PATCH every time.
-            print("LEts PATCH with possible changes")
-            resourcePATCH=self.__createResource()
-            # print(resourcePATCH)
+            #As a QnD solution, lets PATCH every time. Jsu change operational_state field
+            # print("LEts PATCH and change operational_state to show we are live")
+            # resourcePATCH=self.__createResource()
+            resourcePATCH=ResourceUpdate(  operational_state="enable")
+            print(resourcePATCH)
+            print(self.resource_data["name"])
             # print(resourcePATCH.name)
-            # print(resourcePATCH.json())
-            x = requests.patch(self.server+"/resource/"+resourcePATCH.name, data=resourcePATCH.json() )
+            print(resourcePATCH.json())
+            x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
             print("request complete")
             print(x)
             print(x.reason)
             print(x.status_code)
             print
             print(x.json())
+            # self.resource=resourcePATCH
 
 
     #This will create the request to self register
@@ -200,21 +204,48 @@ class FileHandler:
   #This will create the request to self unregister
     def unregister(self):
         print("Trying to self unregister")
-        #TODO: Check if entries exist in cfg
-        #create a random name so that DB does not get an error when testing
-           
-        #TODO check that server is actually there
-        if self.server is not None:
-            print(self.server)
-            #Send post req to server
-            #TODO: check that IP has http in front otherwise add it
-            x = requests.delete(self.server+"/resource/"+self.resourceID )
-            print("request complete")
-            print(x.reason)
-            print(x.status_code)
-            if(x.status_code==200):
-                print("Self unregister success")
+        #TODO: At this point we should send a GET to the server with our ID to create the selfResourse
+        #If the GET fails (i.e. the server has deleted us) we should register again
+        #If the device exists we should check whether there is any configuration change locally and PATCH if required
+        #As a QnD solution, lets PATCH every time. Jsu change operational_state field
+        # print("LEts PATCH and change operational_state to show we are NOT live")
+        # resourcePATCH=self.__createResource()
+        resourcePATCH=ResourceUpdate(  operational_state="disable")
+        print(resourcePATCH)
+        print(self.resource_data["name"])
+        # print(resourcePATCH.name)
+        print(resourcePATCH.json())
+        x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
+        print("request complete")
+        print(x)
+        print(x.reason)
+        print(x.status_code)
+        print
+        print(x.json())
+        # #TODO: Check if entries exist in cfg
+        # #create a random name so that DB does not get an error when testing
+        # #self.server="http://127.0.0.1:18080"
+        # print("PAPA1")
+        # #TODO check that server is actually there
+        # if self.server is not None:
+        #     print(self.server)
+        #     print("PAPA2")
+        #     #Send post req to server
+        #     #TODO: check that IP has http in front otherwise add it
+        #     #no deletex = requests.delete(self.server+"/resource/"+self.resourceID )
+        #     #set state as disable
+        #     #self.resource.operational_state=ResourceOperationalStateTypeEnum.disable.value
+        #     print(">>>>>>>>>>>>>>>>>>>")
+        #     #print(self.resource.operational_state)
+        #     print("<<<<<<<<<<<<<<<<<<<")
+        #     x = requests.patch(self.server+"/resource/"+self.resource.name, data=self.resource.json() )
+        #     print(self.resource)
+        #     print("request complete")
+        #     print(x.reason)
+        #     print(x.status_code)
+        #     if(x.status_code==200):
+        #         print("Self unregister success")
                
-            else:
-                #TODO: Check what went wring and handle
-                print("Oooops")
+        #     else:
+        #         #TODO: Check what went wring and handle
+        #         print("Oooops")

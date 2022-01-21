@@ -55,8 +55,9 @@ async def startup_event():
 def shutdown_event():
    print("****************************************************") 
    print("Shut down")
-   print("Unregister")
+   print("Change operationalState ")
    print("****************************************************") 
+   #Will use the operationalState field
    fileHandler.unregister()
    with open("../log.txt", mode="a") as log:
        log.write("Application shutdown")
