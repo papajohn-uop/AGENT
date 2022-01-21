@@ -127,7 +127,7 @@ class FileHandler:
             #As a QnD solution, lets PATCH every time. Jsu change operational_state field
             # print("LEts PATCH and change operational_state to show we are live")
             # resourcePATCH=self.__createResource()
-            resourcePATCH=ResourceUpdate(  operational_state="enable")
+            resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value)
             print(resourcePATCH)
             print(self.resource_data["name"])
             # print(resourcePATCH.name)
@@ -210,7 +210,7 @@ class FileHandler:
         #As a QnD solution, lets PATCH every time. Jsu change operational_state field
         # print("LEts PATCH and change operational_state to show we are NOT live")
         # resourcePATCH=self.__createResource()
-        resourcePATCH=ResourceUpdate(  operational_state="disable")
+        resourcePATCH=ResourceUpdate(  operational_state=ResourceOperationalStateTypeEnum["disable"].value)
         print(resourcePATCH)
         print(self.resource_data["name"])
         # print(resourcePATCH.name)
