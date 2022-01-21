@@ -128,18 +128,8 @@ class FileHandler:
             # print("LEts PATCH and change operational_state to show we are live")
             # resourcePATCH=self.__createResource()
             resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value)
-            print(resourcePATCH)
-            print(self.resource_data["name"])
-            # print(resourcePATCH.name)
-            print(resourcePATCH.json())
             x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
-            print("request complete")
-            print(x)
-            print(x.reason)
-            print(x.status_code)
-            print
-            print(x.json())
-            # self.resource=resourcePATCH
+            #TODO: check response
 
 
     #This will create the request to self register
@@ -151,30 +141,16 @@ class FileHandler:
             return
 
         selfResource=self.__createResource() 
-        print(selfResource)
-      
-
-
-        print(selfResource.json())
                 
         #TODO check that server is actually there
         if self.server is not None:
-            print(self.server)
             #Send post req to server
             #TODO: check that IP has http in front otherwise add it
             x = requests.post(self.server+"/resource", data=selfResource.json() )
-            print("request complete")
-            print(x)
-            print(x.reason)
-            print(x.status_code)
             if(x.status_code==201):
                 print("Self register success")
-                # print(x.text)
-                # print(x.json())
                 if "id" in x.json():
-                    print(x.json()["id"])
                     self.resourceID=x.json()["id"]
-                    print(self.resourceID)
 
                     tmpData=None
                     with open(self.agent_conf_file, 'r') as jsonfile:
@@ -188,7 +164,6 @@ class FileHandler:
 
                     #all good
                     self.resource=selfResource
-                    print(self.resource)
 
                 else:
                     print("This is strange")
@@ -211,41 +186,5 @@ class FileHandler:
         # print("LEts PATCH and change operational_state to show we are NOT live")
         # resourcePATCH=self.__createResource()
         resourcePATCH=ResourceUpdate(  operational_state=ResourceOperationalStateTypeEnum["disable"].value)
-        print(resourcePATCH)
-        print(self.resource_data["name"])
-        # print(resourcePATCH.name)
-        print(resourcePATCH.json())
         x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
-        print("request complete")
-        print(x)
-        print(x.reason)
-        print(x.status_code)
-        print
-        print(x.json())
-        # #TODO: Check if entries exist in cfg
-        # #create a random name so that DB does not get an error when testing
-        # #self.server="http://127.0.0.1:18080"
-        # print("PAPA1")
-        # #TODO check that server is actually there
-        # if self.server is not None:
-        #     print(self.server)
-        #     print("PAPA2")
-        #     #Send post req to server
-        #     #TODO: check that IP has http in front otherwise add it
-        #     #no deletex = requests.delete(self.server+"/resource/"+self.resourceID )
-        #     #set state as disable
-        #     #self.resource.operational_state=ResourceOperationalStateTypeEnum.disable.value
-        #     print(">>>>>>>>>>>>>>>>>>>")
-        #     #print(self.resource.operational_state)
-        #     print("<<<<<<<<<<<<<<<<<<<")
-        #     x = requests.patch(self.server+"/resource/"+self.resource.name, data=self.resource.json() )
-        #     print(self.resource)
-        #     print("request complete")
-        #     print(x.reason)
-        #     print(x.status_code)
-        #     if(x.status_code==200):
-        #         print("Self unregister success")
-               
-        #     else:
-        #         #TODO: Check what went wring and handle
-        #         print("Oooops")
+        #TODO: check response
