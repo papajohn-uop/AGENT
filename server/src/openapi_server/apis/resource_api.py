@@ -23,6 +23,7 @@ from openapi_server.models.resource_create import ResourceCreate
 from openapi_server.models.resource_update import ResourceUpdate
 
 import uuid
+from fastapi.responses import JSONResponse
 
 #from  common import handle_files
 from  openapi_server import main
@@ -147,6 +148,8 @@ async def patch_resource(
         if main.fileHandler.action_present  not in main.fileHandler.allowed_actions:
             print("Yeah I do not how to do this.... ")
             print(main.fileHandler.action_present)
+            return JSONResponse(status_code=405, content={"code": "405", "reason":"Command Not Found", "message": "Command not present", "status":"", "reference_error":"", "base_type":"","schema_location":"", "type":""})
+
             return None
         print(main.fileHandler.action_present)
         main.cmdHandler.action=main.fileHandler.action_present
