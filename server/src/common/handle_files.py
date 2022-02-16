@@ -127,7 +127,7 @@ class FileHandler:
             #As a QnD solution, lets PATCH every time. Jsu change operational_state field
             # print("LEts PATCH and change operational_state to show we are live")
             # resourcePATCH=self.__createResource()
-            resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value)
+            resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value, resource_status=ResourceStatusTypeEnum["available"].value)
             x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
             #TODO: check response
 
@@ -146,6 +146,7 @@ class FileHandler:
         if self.server is not None:
             #Send post req to server
             #TODO: check that IP has http in front otherwise add it
+            print(selfResource)
             x = requests.post(self.server+"/resource", data=selfResource.json() )
             if(x.status_code==201):
                 print("Self register success")
@@ -185,6 +186,6 @@ class FileHandler:
         #As a QnD solution, lets PATCH every time. Jsu change operational_state field
         # print("LEts PATCH and change operational_state to show we are NOT live")
         # resourcePATCH=self.__createResource()
-        resourcePATCH=ResourceUpdate(  operational_state=ResourceOperationalStateTypeEnum["disable"].value)
+        resourcePATCH=ResourceUpdate(  operational_state=ResourceOperationalStateTypeEnum["disable"].value,resource_status=ResourceStatusTypeEnum["unknown"].value)
         x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
         #TODO: check response
