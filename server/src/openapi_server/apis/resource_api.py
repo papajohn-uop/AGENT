@@ -25,6 +25,8 @@ from openapi_server.models.resource_update import ResourceUpdate
 import uuid
 from fastapi.responses import JSONResponse
 
+from  openapi_server import callbacks
+
 #from  common import handle_files
 from  openapi_server import main
 
@@ -151,10 +153,18 @@ async def patch_resource(
             return JSONResponse(status_code=405, content={"code": "405", "reason":"Command Not Found", "message": "Command not present", "status":"", "reference_error":"", "base_type":"","schema_location":"", "type":""})
 
             return None
-        print(main.fileHandler.action_present)
-        main.cmdHandler.action=main.fileHandler.action_present
-        main.cmdHandler.action_command=main.fileHandler.commands[main.fileHandler.action_present]
-        main.cmdHandler.executeCMD()
+        print(main.fileHandler.commands[main.fileHandler.action_present])
+        print(main.fileHandler.commands[main.fileHandler.action_present])
+        print(main.fileHandler.commands[main.fileHandler.action_present])
+        if main.fileHandler.commands[main.fileHandler.action_present].startswith("@"):
+            print("Shoud have a Callback....")
+            print(main.fileHandler.action_present)
+            print(callbacks.callbacks)
+            callbacks.process_event(main.fileHandler.action_present)
+        else:
+            main.cmdHandler.action=main.fileHandler.action_present
+            main.cmdHandler.action_command=main.fileHandler.commands[main.fileHandler.action_present]
+            main.cmdHandler.executeCMD()
 
     #TODO: Check for success/fail of command
     return newResource

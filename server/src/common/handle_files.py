@@ -9,6 +9,7 @@ from openapi_server.models.resource_operational_state_type import ResourceOperat
 from openapi_server.models.resource_status_type import ResourceStatusTypeEnum
 from openapi_server.models.resource_usage_state_type import ResourceUsageStateTypeEnum
 
+from  openapi_server import callbacks
 
 import string
 import random
@@ -103,8 +104,20 @@ class FileHandler:
             resourceAction_Char=Characteristic(name="supported_actions",type="list",value={"value":self.allowed_actions})  
             resourceAction_Char.id="string"
             resourceAction_Char.value_type="list"
-            selfResource.resource_characteristic.append(resourceAction_Char)    
-        
+            selfResource.resource_characteristic.append(resourceAction_Char)   
+            print("Lets see if we have anything to register") 
+            for action in self.allowed_actions:
+                cmd2run=self.commands[action]
+                print(action,cmd2run)
+                if cmd2run.startswith("@"):
+                    print("Callback....")
+                    ttt="myCallBack_1"
+                    #callbacks.register_callback(action, callbacks.myCallBack_1)
+                    callbacks.register_callback(action, getattr(callbacks, ttt))
+                    callbacks.process_event("event1")
+                    callbacks.process_event("event2")
+
+
         if self.resource_status:
             print("DDDDDDDDDDDDD")
             #TODO: if the key is erroneous in agetn_Cfg (i.e. state=unlked) there is an excpetion. Must fix it
