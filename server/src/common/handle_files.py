@@ -140,6 +140,13 @@ class FileHandler:
             #As a QnD solution, lets PATCH every time. Jsu change operational_state field
             # print("LEts PATCH and change operational_state to show we are live")
             # resourcePATCH=self.__createResource()
+            #reregister callbacks
+            for action in self.allowed_actions:
+                cmd2run=self.commands[action]
+                if cmd2run.startswith("@"):
+                    ttt="myCallBack_1"
+                    #callbacks.register_callback(action, callbacks.myCallBack_1)
+                    callbacks.register_callback(action, getattr(callbacks, ttt))
             resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value, resource_status=ResourceStatusTypeEnum["available"].value)
             x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
             #TODO: check response
