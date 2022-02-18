@@ -10,6 +10,7 @@ from openapi_server.models.resource_status_type import ResourceStatusTypeEnum
 from openapi_server.models.resource_usage_state_type import ResourceUsageStateTypeEnum
 
 from  openapi_server import callbacks
+import inspect
 
 import string
 import random
@@ -143,10 +144,19 @@ class FileHandler:
             #reregister callbacks
             for action in self.allowed_actions:
                 cmd2run=self.commands[action]
-                if cmd2run.startswith("@"):
-                    ttt="myCallBack_1"
+                if cmd2run is None:
+                    print(action,"None")
+                    myCB=action
+                    if (hasattr(callbacks, myCB) and inspect.isfunction(getattr(callbacks, myCB))):
+                        print("Found something",action)
+                        callbacks.register_callback(action, getattr(callbacks, action))
+                    else:
+                        print("No callback to register")
+
+                elif cmd2run.startswith("@"):
+                    cb="myCallBack_1"
                     #callbacks.register_callback(action, callbacks.myCallBack_1)
-                    callbacks.register_callback(action, getattr(callbacks, ttt))
+                    callbacks.register_callback(action, getattr(callbacks, cb))
             resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value, resource_status=ResourceStatusTypeEnum["available"].value)
             x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
             #TODO: check response

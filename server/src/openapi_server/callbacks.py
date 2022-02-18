@@ -20,29 +20,69 @@ def process_event(event):
         print("No callback registered")
 
 
-def myCallBack_1():
-    process = subprocess.Popen(["echo 'SET_GENERIC_CONFIG_FROM_CALLBACK' >> nikos.txt"],
-                           #we need shell= true to pass the command as string and not as list
-                           shell=True, 
-                           stdout=subprocess.PIPE,
-                           universal_newlines=True)
+def _execCMD(action_command):
+    #process = subprocess.Popen(['echo', self.action_command], 
+    print("--->0")
+    process = subprocess.Popen([action_command],
+                        #we need shell= true to pass the command as string and not as list
+                        shell=True, 
+                        stdout=subprocess.PIPE,
+                        universal_newlines=True)
+    print("--->1")
     while True:
+        print("--->2")
         output = process.stdout.readline()
         print(output.strip())
         # Do something else
         return_code = process.poll()
         if return_code is not None:
+            print('RETURN CODE', return_code)
             # Process has finished, read rest of the output 
             for output in process.stdout.readlines():
                 print(output.strip())
             break
-    
+
+
+########################
+def echo():
+    _execCMD("echo $(date -u) >> nikos.txt")
+
+
+'''
+  "start": "service lte start",
+        "restart": "service lte restart",
+        "stop": "service lte stop",
+        "status": "service lte status",
+        "touch": "touch nikos.txt",
+'''
+def start():
+    _execCMD("service lte start")
+
+def restart():
+    _execCMD("service lte restart")
+
+def stop():
+    _execCMD("service lte stop")
+
+def status():
+    _execCMD("service lte status")    
+########################
+
+
+def set_generic_config():
+    print("FFF")
+    _execCMD("echo 'SET_GENERIC_CONFIG_FROM_CALLBACK' >> nikos.txt")
+
 
 def myCallBack_2():
     print ("Callback2!")
 
 def myCallBack_3():
     print ("Callback3!")
+
+
+def cmd2():
+    print ("\n\nCMD2 CB\n\n")
 
 
 #register_callback("event1",myCallBack_1)

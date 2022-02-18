@@ -156,7 +156,11 @@ async def patch_resource(
         print(main.fileHandler.commands[main.fileHandler.action_present])
         print(main.fileHandler.commands[main.fileHandler.action_present])
         print(main.fileHandler.commands[main.fileHandler.action_present])
-        if main.fileHandler.commands[main.fileHandler.action_present].startswith("@"):
+        if main.fileHandler.commands[main.fileHandler.action_present] is None:
+            print("NONE IN RESOURCE_API", )
+            print(callbacks.callbacks)
+            callbacks.process_event(main.fileHandler.action_present)
+        elif main.fileHandler.commands[main.fileHandler.action_present].startswith("@"):
             print("Shoud have a Callback....")
             print(main.fileHandler.action_present)
             print(callbacks.callbacks)
