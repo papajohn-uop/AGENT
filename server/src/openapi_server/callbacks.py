@@ -22,15 +22,12 @@ def process_event(event):
 
 def _execCMD(action_command):
     #process = subprocess.Popen(['echo', self.action_command], 
-    print("--->0")
     process = subprocess.Popen([action_command],
                         #we need shell= true to pass the command as string and not as list
                         shell=True, 
                         stdout=subprocess.PIPE,
                         universal_newlines=True)
-    print("--->1")
     while True:
-        print("--->2")
         output = process.stdout.readline()
         print(output.strip())
         # Do something else

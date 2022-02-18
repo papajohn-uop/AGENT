@@ -146,24 +146,14 @@ async def patch_resource(
             main.fileHandler.write_conf_file()
 
     if main.fileHandler.allowed_actions is not None:
-        print("--------------->")
         if main.fileHandler.action_present  not in main.fileHandler.allowed_actions:
             print("Yeah I do not how to do this.... ")
             print(main.fileHandler.action_present)
             return JSONResponse(status_code=405, content={"code": "405", "reason":"Command Not Found", "message": "Command not present", "status":"", "reference_error":"", "base_type":"","schema_location":"", "type":""})
 
             return None
-        print(main.fileHandler.commands[main.fileHandler.action_present])
-        print(main.fileHandler.commands[main.fileHandler.action_present])
-        print(main.fileHandler.commands[main.fileHandler.action_present])
+        
         if main.fileHandler.commands[main.fileHandler.action_present] is None:
-            print("NONE IN RESOURCE_API", )
-            print(callbacks.callbacks)
-            callbacks.process_event(main.fileHandler.action_present)
-        elif main.fileHandler.commands[main.fileHandler.action_present].startswith("@"):
-            print("Shoud have a Callback....")
-            print(main.fileHandler.action_present)
-            print(callbacks.callbacks)
             callbacks.process_event(main.fileHandler.action_present)
         else:
             main.cmdHandler.action=main.fileHandler.action_present

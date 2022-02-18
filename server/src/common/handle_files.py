@@ -54,10 +54,7 @@ class FileHandler:
                 self.resource_status=data["resource_status"]
             if "Registered" in data:
                 self.registered=data["Registered"]
-        print("----------->")
-        print(data["commands"])
-        print("----------->")
-        print(self.allowed_actions)
+
         
     
 
@@ -145,18 +142,11 @@ class FileHandler:
             for action in self.allowed_actions:
                 cmd2run=self.commands[action]
                 if cmd2run is None:
-                    print(action,"None")
                     myCB=action
                     if (hasattr(callbacks, myCB) and inspect.isfunction(getattr(callbacks, myCB))):
-                        print("Found something",action)
                         callbacks.register_callback(action, getattr(callbacks, action))
                     else:
-                        print("No callback to register")
-
-                elif cmd2run.startswith("@"):
-                    cb="myCallBack_1"
-                    #callbacks.register_callback(action, callbacks.myCallBack_1)
-                    callbacks.register_callback(action, getattr(callbacks, cb))
+                        print("No callback to register for-->",myCB)
             resourcePATCH=ResourceUpdate( operational_state=ResourceOperationalStateTypeEnum["enable"].value, resource_status=ResourceStatusTypeEnum["available"].value)
             x = requests.patch(self.server+"/resource/"+self.resource_data["name"], data=resourcePATCH.json() )
             #TODO: check response
