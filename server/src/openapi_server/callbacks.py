@@ -67,7 +67,6 @@ def status():
 
 
 def set_generic_config():
-    print("FFF")
     _execCMD("echo 'SET_GENERIC_CONFIG_FROM_CALLBACK' >> nikos.txt")
 
 

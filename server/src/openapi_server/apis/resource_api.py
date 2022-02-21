@@ -134,38 +134,18 @@ async def patch_resource(
     newResource.resource_characteristic=resource.resource_characteristic
     newResource.activation_feature=resource.activation_feature
     action_present=None
-    # for characteristic in newResource.resource_characteristic:
-    #     characteristic.id=str(uuid.uuid1())
-    #     #Check if there is an action
-    #     if(characteristic.name=="action"):
-    #         main.fileHandler.action_present=characteristic.value["value"]
-    #     #Check if there is an action
-    #     if(characteristic.name=="action_parameters"):
-    #         main.fileHandler.action_params=characteristic.value["value"]
+
 
     if  newResource.activation_feature:
-        print("ACTIVATION_FEATURE_FOUND")
         for activation_feature in newResource.activation_feature:
-            print(activation_feature.name)
             if activation_feature.name=="gNodeB_service": #We might not need this
                 for feature_char in activation_feature.feature_characteristic:
-                    print(feature_char.name)
                     if(feature_char.name=="action"):
                         main.fileHandler.action_present=feature_char.value["value"]
                     #Check if there are parameters
                     if(feature_char.name=="action_parameters"):
                         main.fileHandler.action_params=feature_char.value["value"]
                 
-    # for characteristic in newResource.resource_characteristic:
-    #     characteristic.id=str(uuid.uuid1())
-    #     #Check if there is an action
-    #     if(characteristic.name=="action"):
-    #         main.fileHandler.action_present=characteristic.value["value"]
-    #     #Check if there is an action
-    #     if(characteristic.name=="action_parameters"):
-    #         main.fileHandler.action_params=characteristic.value["value"]
-
-
 
 
     if main.fileHandler.action_params is not None:
