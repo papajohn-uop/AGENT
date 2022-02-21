@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional  # noqa: F401
 from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
 #from openapi_server.models.attachment_ref_or_value import AttachmentRefOrValue
 from openapi_server.models.characteristic import Characteristic
-#from openapi_server.models.feature import Feature
+from openapi_server.models.feature import Feature
 #from openapi_server.models.note import Note
 #from openapi_server.models.related_party import RelatedParty
 #from openapi_server.models.related_place_ref_or_value import RelatedPlaceRefOrValue
@@ -38,7 +38,7 @@ class ResourceCreate(BaseModel):
         name: The name of this ResourceCreate.
         resource_version: The resource_version of this ResourceCreate [Optional].
     #    start_operating_date: The start_operating_date of this ResourceCreate [Optional].
-       # activation_feature: The activation_feature of this ResourceCreate [Optional].
+        activation_feature: The activation_feature of this ResourceCreate [Optional].
         administrative_state: The administrative_state of this ResourceCreate [Optional].
      #   attachment: The attachment of this ResourceCreate [Optional].
      #   note: The note of this ResourceCreate [Optional].
@@ -61,7 +61,7 @@ class ResourceCreate(BaseModel):
     name: str
     resource_version: Optional[str] = None
    # start_operating_date: Optional[datetime] = None
-   # activation_feature: Optional[List[Feature]] = None
+    activation_feature: Optional[List[Feature]] = None
 ###    administrative_state: Optional[ResourceAdministrativeStateType] = None
     administrative_state: Optional[ResourceAdministrativeStateTypeEnum] = None
    # attachment: Optional[List[AttachmentRefOrValue]] = None

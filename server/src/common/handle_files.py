@@ -104,16 +104,15 @@ class FileHandler:
             resourceAction_Char.value_type="list"
             selfResource.resource_characteristic.append(resourceAction_Char)   
             print("Lets see if we have anything to register") 
+            #register callbacks
             for action in self.allowed_actions:
                 cmd2run=self.commands[action]
-                print(action,cmd2run)
-                if cmd2run.startswith("@"):
-                    print("Callback....")
-                    ttt="myCallBack_1"
-                    #callbacks.register_callback(action, callbacks.myCallBack_1)
-                    callbacks.register_callback(action, getattr(callbacks, ttt))
-                    callbacks.process_event("event1")
-                    callbacks.process_event("event2")
+                if cmd2run is None:
+                    myCB=action
+                    if (hasattr(callbacks, myCB) and inspect.isfunction(getattr(callbacks, myCB))):
+                        callbacks.register_callback(action, getattr(callbacks, action))
+                    else:
+                        print("No callback to register for-->",myCB)
 
 
         if self.resource_status:

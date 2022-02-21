@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional  # noqa: F401
 from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
 #from openapi_server.models.attachment_ref_or_value import AttachmentRefOrValue
 from openapi_server.models.characteristic import Characteristic
-#from openapi_server.models.feature import Feature
+from openapi_server.models.feature import Feature
 #from openapi_server.models.note import Note
 #from openapi_server.models.related_party import RelatedParty
 #from openapi_server.models.related_place_ref_or_value import RelatedPlaceRefOrValue
@@ -57,7 +57,7 @@ class ResourceUpdate(BaseModel):
     name: Optional[str] = None
     resource_version: Optional[str] = None
     #start_operating_date: Optional[datetime] = None
-    #activation_feature: Optional[List[Feature]] = None
+    activation_feature: Optional[List[Feature]] = None
     ###    administrative_state: Optional[ResourceAdministrativeStateType] = None
     administrative_state: Optional[ResourceAdministrativeStateTypeEnum] = None#attachment: Optional[List[AttachmentRefOrValue]] = None
     #note: Optional[List[Note]] = None
