@@ -137,6 +137,9 @@ async def patch_resource(
 
 
     if  newResource.activation_feature:
+        main.fileHandler.action_params=None
+        main.fileHandler.action_present=None
+
         for activation_feature in newResource.activation_feature:
             if activation_feature.name=="gNodeB_service": #We might not need this
                 for feature_char in activation_feature.feature_characteristic:
