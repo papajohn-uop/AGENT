@@ -69,7 +69,10 @@ class FileHandler:
             for param in self.action_params:
                 if param in self.allowed_params:
                     with open("../../myconf.cfg", mode="a") as conf:
-                        conf.write("#define {} {}\n".format(param,self.action_params[param]))
+                        if param is "PRMT_AMF_ADDR" or "PRMT_GTP_ADDR" or "PRMT_PLMN" or "PRMT_MOD_UL" or "PRMT_MOD_DL":
+                            conf.write("#define {} \"{}\"\n".format(param,self.action_params[param]))
+                        else:
+                            conf.write("#define {} {}\n".format(param,self.action_params[param]))
 
                 else:
                     print("Yeah  this param is not available... ",param)
