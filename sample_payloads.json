@@ -1,0 +1,45 @@
+{
+	"activation_feature": 
+	[{
+		"name":"gNodeB_service",
+		"feature_characteristic":
+		[
+		{
+          "name": "action",
+          "value": {
+            "value": "restart"
+          }
+		}]
+	}]
+}
+
+
+
+{
+  "activation_feature": [
+    {
+      "name": "gNodeB_service",
+      "feature_characteristic": [
+        {
+          "name": "action",
+          "value": {
+            "value": "restart"
+          }
+        },
+        {
+          "name": "action_parameters",
+          "value": {
+            "value": {
+              "PRMT_AMF_ADDR": "10.10.10.221",
+              "PRMT_GTP_ADDR": "172.16.10.203",
+              "PRMT_TAC": "fvvvv",
+              "PRMT_BAND": 111,
+              "PRMT_TX_GAIN": 123,
+              "PRMT_PLMN": 12345
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

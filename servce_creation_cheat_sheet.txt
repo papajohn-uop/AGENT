@@ -1,0 +1,21 @@
+EXECUTION SCRIPT
+    #!/bin/bash
+    cd /home/lime/AGENT/server/src
+    /home/lime/.local/bin/uvicorn openapi_server.main:app --host 172.16.10.208 --port 28080
+
+
+.SERVICE FILE
+    [Unit]
+    Description=Radio Configuration Agent service
+    After=network.target
+    #StartLimitIntervalSec=0
+
+    [Service]
+    Type=simple
+    #Restart=always
+    #RestartSec=1
+    User=lime
+    ExecStart=/home/lime/AGENT/start_agent.sh
+
+    [Install]
+    WantedBy=multi-user.target
