@@ -101,6 +101,14 @@ class FileHandler:
             resourceLoc_Char.id="string"
             resourceLoc_Char.value_type="array"
             selfResource.resource_characteristic.append(resourceLoc_Char)
+        #Add gtp iface addres to suppoort multiple amfs
+        if "gtp_iface" in self.resource_data:
+            gtp_iface_Char=Characteristic(name="gtp_iface",value={"value":self.resource_data["gtp_iface"]})
+            gtp_iface_Char.id="string"
+            gtp_iface_Char.value_type="string"
+            selfResource.resource_characteristic.append(gtp_iface_Char)
+
+
         if self.allowed_actions is not None:
             resourceAction_Char=Characteristic(name="supported_actions",type="list",value={"value":self.allowed_actions})  
             resourceAction_Char.id="string"
