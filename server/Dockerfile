@@ -1,31 +1,20 @@
-FROM python:3.7 AS builder
+# 
+FROM python:3.9
 
-WORKDIR /usr/src/app
+# 
+WORKDIR /agent
 
-RUN python3 -m venv /venv
-ENV PATH="/venv/bin:$PATH"
+# 
+COPY ./requirements.txt /radio_mgmt_agent/requirements.txt
 
-RUN pip install --upgrade pip
+# 
+RUN pip install --no-cache-dir --upgrade -r /radio_mgmt_agent/requirements.txt
 
-COPY . .
-RUN pip install --no-cache-dir .
+# 
+COPY ./src  /agent
 
-
-FROM python:3.7 AS test_runner
-WORKDIR /tmp
-COPY --from=builder /venv /venv
-#COPY --from=builder /usr/src/app/tests tests
-ENV PATH=/venv/bin:$PATH
-
-# install test dependencies
-#RUN pip install pytest
-
-# run tests
-#RUN pytest tests
-
-
-FROM python:3.7 AS radio_mgmt_server
-WORKDIR /root/app/site-packages
-COPY --from=test_runner /venv /venv
-ENV PATH=/venv/bin:$PATH
-COPY ./ /server
+# 
+#CMD ["cd", "/radio_mgmt_agent/src"]
+cmd ["touch","do.ne" ]
+CMD ["uvicorn", "openapi_server.main:app", "--host", "0.0.0.0", "--port", "80"]
+#CMD ["bash"]
