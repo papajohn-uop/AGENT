@@ -15,6 +15,7 @@ COPY ./src  /agent
 
 # 
 #CMD ["cd", "/radio_mgmt_agent/src"]
-cmd ["touch","do.ne" ]
-CMD ["uvicorn", "openapi_server.main:app", "--host", "0.0.0.0", "--port", "80"]
-#CMD ["bash"]
+# cmd ["touch","do.ne" ]
+# cmd ["touch","do.ne.2" ]
+# CMD ["uvicorn", "openapi_server.main:app", "--host", "0.0.0.0", "--port", "80"]
+# #CMD ["bash"]
