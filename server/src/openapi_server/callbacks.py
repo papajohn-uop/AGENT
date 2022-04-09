@@ -22,7 +22,11 @@ def process_event(event):
 
 def _execCMD(action_command):
     #process = subprocess.Popen(['echo', self.action_command], 
-    process = subprocess.Popen([action_command],
+#    process = subprocess.Popen(["echo \"", action_command,"\" >>./test.txt"],
+    print(type(action_command))
+    print(action_command)
+    process = subprocess.Popen(["echo \""+ str(action_command)+"\" >./pipe_cmd.txt"],
+    #process = subprocess.Popen([action_command],
                         #we need shell= true to pass the command as string and not as list
                         shell=True, 
                         stdout=subprocess.PIPE,
@@ -41,8 +45,8 @@ def _execCMD(action_command):
 
 
 ########################
-def echo():
-    _execCMD("echo $(date -u) >> nikos.txt")
+# def echo():
+#     _execCMD("echo $(date -u) >> nikos.txt")
 
 
 '''
@@ -53,16 +57,32 @@ def echo():
         "touch": "touch nikos.txt",
 '''
 def start():
-    _execCMD("service lte start")
+    _execCMD("sudo /home/lime/5G_SA_service_start.sh")
 
 def restart():
-    _execCMD("service lte restart")
+    _execCMD("sudo /home/lime/5G_SA_service_start.sh")
 
 def stop():
-    _execCMD("service lte stop")
+    _execCMD("sudo /home/lime/5G_SA_service_stop.sh")
 
 def status():
     _execCMD("service lte status")    
+
+def touch():
+    _execCMD('touch ./test.txt ')    
+    # _execCMD("echo touch > ./docker_command.txt ")    
+    # _execCMD("ls -la")    
+
+
+def echo():
+    _execCMD("echo 1 >>./test.txt ")    
+    #_execCMD("echo \"echo docker >>./test.txt\" >test_docker.txt ")    
+    # _execCMD("echo  $(date -u) >>./test.txt ")    
+    # _execCMD("sh ./script_in_host.sh ")    
+    # _execCMD("echo 2 >>./test.txt ")    
+    #_execCMD("./script_on_host.sh ")    
+    #_execCMD("../script_on_host_parent.sh ")    
+    # _execCMD("echo 3 >>./test.txt ")    
 ########################
 
 
