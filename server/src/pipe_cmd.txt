@@ -1,0 +1,1 @@
+sudo /home/lime/5G_SA_service_start.sh
