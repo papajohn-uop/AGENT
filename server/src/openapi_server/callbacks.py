@@ -75,7 +75,7 @@ def touch():
 
 
 def echo():
-    _execCMD("echo 1 >>./test.txt ")    
+    _execCMD("echo 'papajohn' >>./test.txt ; echo $(date -u) >>./test.txt ")    
     #_execCMD("echo \"echo docker >>./test.txt\" >test_docker.txt ")    
     # _execCMD("echo  $(date -u) >>./test.txt ")    
     # _execCMD("sh ./script_in_host.sh ")    
@@ -84,6 +84,40 @@ def echo():
     #_execCMD("../script_on_host_parent.sh ")    
     # _execCMD("echo 3 >>./test.txt ")    
 ########################
+
+TARGET_PATH="~/Amarisoft_LTE/enb/config/"
+TARGET_FILE="dummy_link_gnb.cfg "
+def changeConf(config):
+    cmd="echo 'Uplink Configuration' >>./test.txt ; "
+    cmd=cmd + "ln -sf " 
+    cmd=cmd + TARGET_PATH
+    cmd=cmd + config
+    cmd=cmd + TARGET_PATH 
+    cmd=cmd + TARGET_FILE
+    print("in change conf")
+    print(cmd)
+    return cmd
+
+def ul_config():
+    cmd=changeConf("LimeNet5G_N78_UL.cfg ")
+    _execCMD(cmd)
+    # _execCMD("echo 'Uplink Configuration' >>./test.txt ; ln -sf ~/Amarisoft_LTE/enb/config/LimeNet5G_N78_UL.cfg ~/Amarisoft_LTE/enb/config/dummy_link_gnb.cfg ")    
+
+def st_config():
+    cmd=changeConf("LimeNet5G_N78.cfg ")
+    _execCMD(cmd)
+    # _execCMD("echo 'Standard Configuration' >>./test.txt ; ln -sf ~/Amarisoft_LTE/enb/config/LimeNet5G_N78.cfg ~/Amarisoft_LTE/enb/config/dummy_link_gnb.cfg")    
+
+def ulmimo_config():
+    cmd=changeConf("LimeNet5G_N78_UL_MIMO.cfg ")
+    _execCMD(cmd)
+    # _execCMD("echo 'Uplink Mimo Configuration' >>./test.txt ;  ln -sf ~/Amarisoft_LTE/enb/config/LimeNet5G_N78_UL_MIMO.cfg ~/Amarisoft_LTE/enb/config/dummy_link_gnb.cfg ")    
+
+
+def twoslice_config():
+    cmd=changeConf("LimeNet5G_N78_2slices.cfg ")
+    _execCMD(cmd)
+    # _execCMD("echo 'Two slice Configuration' >>./test.txt ;  ln -sf ~/Amarisoft_LTE/enb/config/LimeNet5G_N78_2slices.cfg ~/Amarisoft_LTE/enb/config/dummy_link_gnb.cfg ")    
 
 
 def set_generic_config():
