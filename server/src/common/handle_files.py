@@ -177,34 +177,38 @@ class FileHandler:
             #Send post req to server
             #TODO: check that IP has http in front otherwise add it
             print(selfResource)
-            x = requests.post(self.server+"/resource", data=selfResource.json() )
-            if(x.status_code==201):
-                print("Self register success")
-                if "id" in x.json():
-                    self.resourceID=x.json()["id"]
+            try:
+                x = requests.post(self.server+"/resource", data=selfResource.json() )
+                if(x.status_code==201):
+                    print("Self register success")
+                    if "id" in x.json():
+                        self.resourceID=x.json()["id"]
 
-                    tmpData=None
-                    with open(self.agent_conf_file, 'r') as jsonfile:
-                        tmpData = json.load(jsonfile)
-                        tmpData["Registered"]=True
-                        tmpData["resourceID"]=self.resourceID
+                        tmpData=None
+                        with open(self.agent_conf_file, 'r') as jsonfile:
+                            tmpData = json.load(jsonfile)
+                            tmpData["Registered"]=True
+                            tmpData["resourceID"]=self.resourceID
 
-                    os.remove(self.agent_conf_file)
-                    with open(self.agent_conf_file, 'w') as jsonfile:
-                        json.dump(tmpData, jsonfile, indent=4)
+                        os.remove(self.agent_conf_file)
+                        with open(self.agent_conf_file, 'w') as jsonfile:
+                            json.dump(tmpData, jsonfile, indent=4)
 
-                    #all good
-                    self.resource=selfResource
+                        #all good
+                        self.resource=selfResource
 
+                    else:
+                        print("This is strange")
+                #When a device with the same name has already been registered
+                # 409 Conflict is returned buy the server. 
+                elif (x.status_code==409):
+                    print("Conflict. Same device name already registered")
                 else:
-                    print("This is strange")
-            #When a device with the same name has already been registered
-            # 409 Conflict is returned buy the server. 
-            elif (x.status_code==409):
-                print("Conflict. Same device name already registered")
-            else:
-                #TODO: Check what went wring and handle
-                print("Oooops")
+                    #TODO: Check what went wring and handle
+                    print("Oooops")
+            except requests.exceptions.RequestException as e:
+                print("OOOPS")
+                print(repr(e))
 
 
   #This will create the request to self unregister
